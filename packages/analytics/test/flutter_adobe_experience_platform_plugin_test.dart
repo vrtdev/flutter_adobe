@@ -18,7 +18,12 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('initialize', () async {
+  test('Initialize Adobe Core', () async {
     expect(await FlutterAdobeExperiencePlatformPlugin.configureAdobeCore(appId: '42'), true);
   });
+
+  test('Start Adobe Core', () async {
+    expect(await FlutterAdobeExperiencePlatformPlugin.startAdobeCore(), true);
+  });
+
 }
