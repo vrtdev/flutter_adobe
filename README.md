@@ -1,14 +1,51 @@
-# flutter_adobe_experience_platform_plugin
+# Flutter Adobe Experience Platform plugin
+[![pub package](https://img.shields.io/pub/v/flutter_adobe_experience_platform_plugin.svg)](https://pub.dartlang.org/packages/flutter_adobe_experience_manager)
+[![Build status](https://img.shields.io/cirrus/github/vrtdev/flutter_adobe_experience_platform/master)](https://cirrus-ci.com/github/vrtdev/flutter_adobe_experience_platform/)
 
-A new flutter plugin project.
+This plugin allows bridging between Flutter and [Adobe's Experience Platform SDKs](https://github.com/Adobe-Marketing-Cloud/acp-sdks).
 
-## Getting Started
+### Supported extensions
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+| Extension | Supported |
+| :--- | :--- |
+Mobile Core | ✅
+Adobe Analytics | ✅
+Adobe Analytics - Mobile Services | ✅
+Adobe Media Analytics for Audio & Video | ❌
+Adobe Audience Manager | ❌
+Adobe Campaign Classic | ❌
+Adobe Campaign Standard | ❌
+Adobe Target | ❌
+Places (Beta) | ❌
+Places Monitor | ❌
+Project Griffon (Beta) | ❌
+Profile | ❌
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+# Requirements
+
+### Android
+
+The AEP SDK supports Android API 14 (Ice Cream Sandwich) and newer.
+
+### iOS
+
+The AEP SDK supports iOS 10 and newer.
+
+# Installation
+
+```yaml
+dependencies:
+  flutter_adobe_experience_platform: ^0.0.1
+```
+```shell script
+flutter pub get
+```
+```dart
+import 'package:flutter_adobe_experience_platform/flutter_adobe_experience_platform_plugin.dart';
+```
+
+# Setup
+TODO  
+
+# Send analytics events
+TODO
