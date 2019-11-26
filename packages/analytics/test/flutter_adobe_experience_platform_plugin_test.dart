@@ -7,7 +7,10 @@ void main() {
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
+      if (methodCall.method == 'initialize') {
+        return true;
+      }
+      return false;
     });
   });
 
@@ -15,7 +18,7 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await FlutterAdobeExperiencePlatformPlugin.platformVersion, '42');
+  test('initialize', () async {
+    expect(await FlutterAdobeExperiencePlatformPlugin.configureAdobeCore(appId: '42'), true);
   });
 }
