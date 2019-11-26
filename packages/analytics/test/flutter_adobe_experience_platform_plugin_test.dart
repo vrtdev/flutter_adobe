@@ -7,7 +7,19 @@ void main() {
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      if (methodCall.method == 'initialize') {
+      if (methodCall.method == 'configure') {
+        return true;
+      }
+      if (methodCall.method == 'start') {
+        return true;
+      }
+      if (methodCall.method == 'registerExtension') {
+        return true;
+      }
+      if (methodCall.method == 'trackAction') {
+        return true;
+      }
+      if (methodCall.method == 'trackState') {
         return true;
       }
       return false;
@@ -18,12 +30,23 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('Initialize Adobe Core', () async {
+  test('Configure Core', () async {
     expect(await FlutterAdobeExperiencePlatformPlugin.configureAdobeCore(appId: '42'), true);
   });
 
-  test('Start Adobe Core', () async {
+  test('Start Core', () async {
     expect(await FlutterAdobeExperiencePlatformPlugin.startAdobeCore(), true);
   });
 
+  test('Register Extension', () async {
+    expect(await FlutterAdobeExperiencePlatformPlugin.registerExtension(AdobeExtension.Analytics), true);
+  });
+
+  test('Track action', () async {
+    expect(await FlutterAdobeExperiencePlatformPlugin.trackAction("actionName", {"hello": "world"}), true);
+  });
+
+  test('Track state', () async {
+    expect(await FlutterAdobeExperiencePlatformPlugin.trackState("stateName", {"hello": "world"}), true);
+  });
 }

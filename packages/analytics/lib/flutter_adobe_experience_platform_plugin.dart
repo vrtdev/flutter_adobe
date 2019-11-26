@@ -59,4 +59,15 @@ class FlutterAdobeExperiencePlatformPlugin {
     }
     return extensionName;
   }
+
+  static Future<bool> trackAction(
+      String action, Map<String, String> data) async {
+    return await _channel
+        .invokeMethod('trackAction', {'action': action, 'data': data});
+  }
+
+  static Future<bool> trackState(String state, Map<String, String> data) async {
+    return await _channel
+        .invokeMethod('trackState', {'state': state, 'data': data});
+  }
 }

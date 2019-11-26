@@ -12,6 +12,8 @@ public class SwiftFlutterAdobeExperiencePlatformPlugin: NSObject, FlutterPlugin 
     case configure
     case start
     case registerExtension
+    case trackAction
+    case trackState
   }
   
   private enum AdobeExtensionName: String {
@@ -51,24 +53,68 @@ public class SwiftFlutterAdobeExperiencePlatformPlugin: NSObject, FlutterPlugin 
       switch extensionName {
       case AdobeExtensionName.analytics.rawValue:
         ACPAnalytics.registerExtension()
+        result(true)
       case AdobeExtensionName.campaign.rawValue:
         ACPCampaign.registerExtension()
+        result(true)
       case AdobeExtensionName.identity.rawValue:
         ACPIdentity.registerExtension()
+        result(true)
       case AdobeExtensionName.lifecycle.rawValue:
         ACPLifecycle.registerExtension()
+        result(true)
       case AdobeExtensionName.media.rawValue:
         ACPMedia.registerExtension()
+        result(true)
       case AdobeExtensionName.signal.rawValue:
         ACPSignal.registerExtension()
+        result(true)
       case AdobeExtensionName.userProfile.rawValue:
         ACPUserProfile.registerExtension()
+        result(true)
       default:
         result(FlutterError(code: "-1", message: "Invalid args (invalid extension name)", details: nil))
       }
+    case Method.trackAction.rawValue:
+      guard let (action, contextData) = parseActionTrackingArgs(call.arguments) else {
+          result(FlutterError(code: "-1", message: "Invalid args (expected 'data' (Dictionary) and 'action' (String))", details: nil))
+          return
+      }
+      ACPCore.trackAction(action, data: contextData)
+      result(true)
+    case Method.trackState.rawValue:
+      guard let (state, contextData) = parseStateTrackingArgs(call.arguments) else {
+          result(FlutterError(code: "-1", message: "Invalid args (expected 'data' (Dictionary) and 'state' (String))", details: nil))
+          return
+      }
+      ACPCore.trackState(state, data: contextData)
+      result(true)
     default:
       result(FlutterMethodNotImplemented)
     }
     
   }
+  
+  private func parseActionTrackingArgs(_ args: Any?) -> (action: String, data: [String: String])? {
+    guard
+      let args = args as? [String: Any],
+      let contextData: [String: String] = args["data"] as? [String: String],
+      let action: String = args["action"] as? String
+      else {
+        return nil
+    }
+    return (action: action, data: contextData)
+  }
+  
+  private func parseStateTrackingArgs(_ args: Any?) -> (state: String, data: [String: String])? {
+    guard
+      let args = args as? [String: Any],
+      let contextData: [String: String] = args["data"] as? [String: String],
+      let state: String = args["state"] as? String
+      else {
+        return nil
+    }
+    return (state: state, data: contextData)
+  }
+  
 }
