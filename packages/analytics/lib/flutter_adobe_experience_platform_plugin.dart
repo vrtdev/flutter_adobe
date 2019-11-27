@@ -14,8 +14,8 @@ enum AdobeExtension {
   UserProfile,
 }
 
-class FlutterAdobeExperiencePlatformPlugin {
-  FlutterAdobeExperiencePlatformPlugin._();
+class AdobeExperiencePlatform {
+  AdobeExperiencePlatform._();
 
   static Future<bool> trackAction(String action, Map<String, String> data) async {
     return await _channel.invokeMethod('track', {'type': 'action', 'key': action, 'data': data});

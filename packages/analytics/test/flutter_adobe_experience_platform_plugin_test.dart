@@ -22,10 +22,10 @@ void main() {
   });
 
   test('Track action', () async {
-    expect(await FlutterAdobeExperiencePlatformPlugin.trackAction("actionName", {"hello": "world"}), true);
+    expect(await AdobeExperiencePlatform.trackAction("actionName", {"hello": "world"}), true);
   });
 
   test('Track state', () async {
-    expect(await FlutterAdobeExperiencePlatformPlugin.trackState("stateName", {"hello": "world"}), true);
+    expect(await AdobeExperiencePlatform.trackState("stateName", {"hello": "world"}), true);
   });
 }

@@ -12,12 +12,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   Future<void> trackAction(String action, Map<String, String> data, {@required BuildContext context}) async {
-    final success = await FlutterAdobeExperiencePlatformPlugin.trackAction(action, data);
+    final success = await AdobeExperiencePlatform.trackAction(action, data);
     print("Action tracking result : ${success ? "success" : "failure"}");
   }
 
   Future<void> trackState(String state, Map<String, String> data, {@required BuildContext context}) async {
-    final success = await FlutterAdobeExperiencePlatformPlugin.trackState(state, data);
+    final success = await AdobeExperiencePlatform.trackState(state, data);
     print("State tracking result : ${success ? "success" : "failure"}");
   }
 
