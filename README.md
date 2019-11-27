@@ -33,3 +33,13 @@ These are the available plugins in this repository.
 | [Places Monitor](./packages/places-monitor) | [![pub package](https://img.shields.io/pub/v/places-monitor.svg)](https://pub.dev/packages/adobe_experience_platform_places_monitor) |
 | [Profile](./packages/profile) | [![pub package](https://img.shields.io/pub/v/profile.svg)](https://pub.dev/packages/adobe_experience_platform_profile) |
 | [Target](./packages/target) | [![pub package](https://img.shields.io/pub/v/target.svg)](https://pub.dev/packages/adobe_experience_platform_target) |
+
+# Requirements
+
+### Android
+
+The AEP SDK supports Android API 14 (Ice Cream Sandwich) and newer.
+
+### iOS
+
+The AEP SDK supports iOS 10 and newer.
