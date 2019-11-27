@@ -9,11 +9,12 @@ import ACPUserProfile
 public class SwiftFlutterAdobeExperiencePlatformPlugin: NSObject, FlutterPlugin {
   
   private enum Method: String {
-    case configure
-    case start
-    case registerExtension
-    case trackAction
-    case trackState
+    case track
+  }
+  
+  private enum TrackingType: String {
+    case action
+    case state
   }
   
   private enum AdobeExtensionName: String {
@@ -26,6 +27,12 @@ public class SwiftFlutterAdobeExperiencePlatformPlugin: NSObject, FlutterPlugin 
     case userProfile
   }
   
+}
+
+//MARK: - FlutterPlugin conformance
+
+extension SwiftFlutterAdobeExperiencePlatformPlugin {
+  
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "flutter_adobe_experience_platform_plugin", binaryMessenger: registrar.messenger())
     let instance = SwiftFlutterAdobeExperiencePlatformPlugin()
@@ -34,92 +41,46 @@ public class SwiftFlutterAdobeExperiencePlatformPlugin: NSObject, FlutterPlugin 
   
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
-    case Method.configure.rawValue:
-      guard let args = call.arguments as? [String: String], let appId = args["appId"] else {
-        result(FlutterError(code: "-1", message: "Invalid args", details: nil))
+    case Method.track.rawValue:
+      guard let (type, key, contextData) = parseTrackingArgs(call.arguments) else {
+        result(FlutterError(code: "-1", message: "Invalid args (expected 'data' (Dictionary) and 'action' (String))", details: nil))
         return
       }
-      ACPCore.setLogLevel(ACPMobileLogLevel.verbose)
-      ACPCore.configure(withAppId: appId)
-      result(true)
-    case Method.start.rawValue:
-      ACPCore.start {
-        result(true)
+      switch type {
+      case TrackingType.action:
+        ACPCore.trackAction(key, data: contextData)
+      case TrackingType.state:
+        ACPCore.trackState(key, data: contextData)
       }
-    case Method.registerExtension.rawValue:
-      guard
-        let args = call.arguments as? [String: String],
-        let extensionName = args["extension"],
-        let extensionClass = extensionClass(for: extensionName)
-        else {
-          result(FlutterError(code: "-1", message: "Invalid args (expected 'extension')", details: nil))
-          return
-      }
-      try! ACPCore.registerExtension(extensionClass)
-      result(true)
-    case Method.trackAction.rawValue:
-      guard let (action, contextData) = parseActionTrackingArgs(call.arguments) else {
-          result(FlutterError(code: "-1", message: "Invalid args (expected 'data' (Dictionary) and 'action' (String))", details: nil))
-          return
-      }
-      ACPCore.trackAction(action, data: contextData)
-      result(true)
-    case Method.trackState.rawValue:
-      guard let (state, contextData) = parseStateTrackingArgs(call.arguments) else {
-          result(FlutterError(code: "-1", message: "Invalid args (expected 'data' (Dictionary) and 'state' (String))", details: nil))
-          return
-      }
-      ACPCore.trackState(state, data: contextData)
       result(true)
     default:
       result(FlutterMethodNotImplemented)
     }
-    
   }
   
-  private func extensionClass(for extensionName: String) -> AnyClass? {
-    let extensionClass: AnyClass?
-    switch extensionName {
-    case "analytics":
-      extensionClass = ACPAnalytics.self
-    case "campaign":
-      extensionClass = ACPCampaign.self
-    case "identity":
-      extensionClass = ACPIdentity.self
-    case "lifecycle":
-      extensionClass = ACPLifecycle.self
-    case "media":
-      extensionClass = ACPMedia.self
-    case "signal":
-      extensionClass = ACPSignal.self
-    case "userProfile":
-      extensionClass = ACPUserProfile.self
+}
+
+//MARK: - Helpers
+
+extension SwiftFlutterAdobeExperiencePlatformPlugin {
+  
+  private func parseTrackingArgs(_ args: Any?) -> (type: TrackingType, key: String, data: [String: String])? {
+    guard
+      let args = args as? [String: Any],
+      let type: String = args["type"] as? String,
+      let key: String = args["key"] as? String,
+      let contextData: [String: String] = args["data"] as? [String: String]
+      else {
+        return nil
+    }
+    switch type {
+    case TrackingType.action.rawValue:
+      return (type: .action, key: key, data: contextData)
+    case TrackingType.state.rawValue:
+      return (type: .state, key: key, data: contextData)
     default:
-      extensionClass = nil
+      return nil
     }
-    return extensionClass
-  }
-  
-  private func parseActionTrackingArgs(_ args: Any?) -> (action: String, data: [String: String])? {
-    guard
-      let args = args as? [String: Any],
-      let contextData: [String: String] = args["data"] as? [String: String],
-      let action: String = args["action"] as? String
-      else {
-        return nil
-    }
-    return (action: action, data: contextData)
-  }
-  
-  private func parseStateTrackingArgs(_ args: Any?) -> (state: String, data: [String: String])? {
-    guard
-      let args = args as? [String: Any],
-      let contextData: [String: String] = args["data"] as? [String: String],
-      let state: String = args["state"] as? String
-      else {
-        return nil
-    }
-    return (state: state, data: contextData)
   }
   
 }
