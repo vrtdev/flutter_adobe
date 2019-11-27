@@ -39,6 +39,7 @@ public class SwiftFlutterAdobeExperiencePlatformPlugin: NSObject, FlutterPlugin 
         result(FlutterError(code: "-1", message: "Invalid args", details: nil))
         return
       }
+      ACPCore.setLogLevel(ACPMobileLogLevel.verbose)
       ACPCore.configure(withAppId: appId)
       result(true)
     case Method.start.rawValue:
@@ -46,35 +47,16 @@ public class SwiftFlutterAdobeExperiencePlatformPlugin: NSObject, FlutterPlugin 
         result(true)
       }
     case Method.registerExtension.rawValue:
-      guard let args = call.arguments as? [String: String], let extensionName = args["extension"] else {
-        result(FlutterError(code: "-1", message: "Invalid args (expected 'extension')", details: nil))
-        return
+      guard
+        let args = call.arguments as? [String: String],
+        let extensionName = args["extension"],
+        let extensionClass = extensionClass(for: extensionName)
+        else {
+          result(FlutterError(code: "-1", message: "Invalid args (expected 'extension')", details: nil))
+          return
       }
-      switch extensionName {
-      case AdobeExtensionName.analytics.rawValue:
-        ACPAnalytics.registerExtension()
-        result(true)
-      case AdobeExtensionName.campaign.rawValue:
-        ACPCampaign.registerExtension()
-        result(true)
-      case AdobeExtensionName.identity.rawValue:
-        ACPIdentity.registerExtension()
-        result(true)
-      case AdobeExtensionName.lifecycle.rawValue:
-        ACPLifecycle.registerExtension()
-        result(true)
-      case AdobeExtensionName.media.rawValue:
-        ACPMedia.registerExtension()
-        result(true)
-      case AdobeExtensionName.signal.rawValue:
-        ACPSignal.registerExtension()
-        result(true)
-      case AdobeExtensionName.userProfile.rawValue:
-        ACPUserProfile.registerExtension()
-        result(true)
-      default:
-        result(FlutterError(code: "-1", message: "Invalid args (invalid extension name)", details: nil))
-      }
+      try! ACPCore.registerExtension(extensionClass)
+      result(true)
     case Method.trackAction.rawValue:
       guard let (action, contextData) = parseActionTrackingArgs(call.arguments) else {
           result(FlutterError(code: "-1", message: "Invalid args (expected 'data' (Dictionary) and 'action' (String))", details: nil))
@@ -93,6 +75,29 @@ public class SwiftFlutterAdobeExperiencePlatformPlugin: NSObject, FlutterPlugin 
       result(FlutterMethodNotImplemented)
     }
     
+  }
+  
+  private func extensionClass(for extensionName: String) -> AnyClass? {
+    let extensionClass: AnyClass?
+    switch extensionName {
+    case "analytics":
+      extensionClass = ACPAnalytics.self
+    case "campaign":
+      extensionClass = ACPCampaign.self
+    case "identity":
+      extensionClass = ACPIdentity.self
+    case "lifecycle":
+      extensionClass = ACPLifecycle.self
+    case "media":
+      extensionClass = ACPMedia.self
+    case "signal":
+      extensionClass = ACPSignal.self
+    case "userProfile":
+      extensionClass = ACPUserProfile.self
+    default:
+      extensionClass = nil
+    }
+    return extensionClass
   }
   
   private func parseActionTrackingArgs(_ args: Any?) -> (action: String, data: [String: String])? {
