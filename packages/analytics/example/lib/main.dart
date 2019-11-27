@@ -10,9 +10,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   Future<void> trackAction(String action, Map<String, String> data, {@required BuildContext context}) async {
     final success = await FlutterAdobeExperiencePlatformPlugin.trackAction(action, data);
-    print("Debug - trackAction : ${success ? "success" : "failure"}");
+    print("Action tracking result : ${success ? "success" : "failure"}");
+  }
+
+  Future<void> trackState(String state, Map<String, String> data, {@required BuildContext context}) async {
+    final success = await FlutterAdobeExperiencePlatformPlugin.trackState(state, data);
+    print("State tracking result : ${success ? "success" : "failure"}");
   }
 
   @override
@@ -25,9 +31,18 @@ class _MyAppState extends State<MyApp> {
         body: Padding(
           padding: const EdgeInsets.all(8),
           child: Center(
-            child: RaisedButton(
-              child: Text("Track action"),
-              onPressed: () => trackAction("New action", {"Hello": "World"}, context: context),
+            child: Column(
+              children: <Widget>[
+                RaisedButton(
+                  child: Text("Track action"),
+                  onPressed: () => trackAction("New action", {"Action value": "Hello world"}, context: context),
+                ),
+                SizedBox(height: 8),
+                RaisedButton(
+                  child: Text("Track state"),
+                  onPressed: () => trackState("New state", {"State value": "Hello world"}, context: context),
+                ),
+              ],
             ),
           ),
         ),
