@@ -1,4 +1,4 @@
-group 'be.vrt.adobe_analytics'
+group 'com.example.adobe_analytics'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -32,7 +32,7 @@ android {
     }
     defaultConfig {
         minSdkVersion 16
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         disable 'InvalidPackage'
