@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Bound AdobeAnalytics (Flutter) to ACPCore (native) on iOS.
