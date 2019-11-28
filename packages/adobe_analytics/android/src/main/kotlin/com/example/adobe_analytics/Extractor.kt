@@ -1,4 +1,4 @@
-package be.vrt.adobe_analytics
+package com.example.adobe_analytics
 
 import io.flutter.plugin.common.MethodCall
 
@@ -15,9 +15,10 @@ object Extractor {
     }
 
     private const val typeKey = "type"
+    private const val keyKey = "key"
     private const val stateKey = "state"
     private const val actionKey = "action"
-    private const val contextDataKey = "contextData"
+    private const val contextDataKey = "data"
 
     private fun callFromRawMethodName(rawMethodName: String?): AdobePluginCall =
             AdobePluginCall.values()
@@ -35,11 +36,11 @@ object Extractor {
     private fun adobeCallFromTrackCall(call: MethodCall): AdobeCall {
         when (call.argument<String>(typeKey)) {
             actionKey -> AdobeCall.TrackAction(
-                    call.argument<String>(actionKey)!!,
+                    call.argument<String>(keyKey)!!,
                     call.argument<Map<String, String>>(contextDataKey)!!
             )
             stateKey -> AdobeCall.TrackState(
-                    call.argument<String>(stateKey)!!,
+                    call.argument<String>(keyKey)!!,
                     call.argument<Map<String, String>>(contextDataKey)!!
             )
         }

@@ -1,4 +1,4 @@
-package be.vrt.adobe_analytics
+package com.example.adobe_analytics
 
 import com.adobe.marketing.mobile.MobileCore
 
