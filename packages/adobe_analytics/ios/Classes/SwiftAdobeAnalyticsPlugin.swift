@@ -37,24 +37,19 @@ extension SwiftAdobeAnalyticsPlugin {
   }
   
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    switch call.method {
-    case Method.track.rawValue:
-      guard let (type, key, contextData) = parseTrackingArgs(call.arguments) else {
-        result(FlutterError(code: "-1", message: "Invalid args (expected 'data' (Dictionary) and 'action' (String))", details: nil))
-        return
+    do {
+      switch try PluginMethod(from: call) {
+      case .trackAction(let arguments):
+        ACPCore.trackAction(arguments.key, data: arguments.contextData)
+        result(true)
+      case .trackState(let arguments):
+        ACPCore.trackState(arguments.key, data: arguments.contextData)
+        result(true)
       }
-      switch type {
-      case TrackingType.action:
-        ACPCore.trackAction(key, data: contextData)
-      case TrackingType.state:
-        ACPCore.trackState(key, data: contextData)
-      }
-      result(true)
-    default:
-      result(FlutterMethodNotImplemented)
+    } catch {
+      result(error.asFlutterError)
     }
   }
-  
 }
 
 //MARK: - Helpers
