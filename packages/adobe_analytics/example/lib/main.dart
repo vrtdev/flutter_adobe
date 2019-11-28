@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:adobe_analytics/adobe_analytics.dart';
 
 void main() => runApp(MyApp());
@@ -12,32 +10,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
+  Future<void> trackAction(String action, Map<String, String> data, {@required BuildContext context}) async {
+    final success = await AdobeAnalytics.trackAction(action, data);
+    print("Action tracking result : ${success ? "success" : "failure"}");
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await AdobeAnalytics.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
+  Future<void> trackState(String state, Map<String, String> data, {@required BuildContext context}) async {
+    final success = await AdobeAnalytics.trackState(state, data);
+    print("State tracking result : ${success ? "success" : "failure"}");
   }
 
   @override
@@ -47,8 +27,23 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                RaisedButton(
+                  child: Text("Track action"),
+                  onPressed: () => trackAction("New action", {"Action value": "Hello world"}, context: context),
+                ),
+                SizedBox(height: 8),
+                RaisedButton(
+                  child: Text("Track state"),
+                  onPressed: () => trackState("New state", {"State value": "Hello world"}, context: context),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
