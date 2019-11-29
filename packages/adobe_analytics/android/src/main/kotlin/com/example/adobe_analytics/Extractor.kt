@@ -1,4 +1,4 @@
-package be.vrt.adobe_analytics
+package com.example.adobe_analytics
 
 import io.flutter.plugin.common.MethodCall
 
@@ -45,4 +45,5 @@ object Extractor {
                 )
                 else -> AdobeCall.Unknown
             }
+    
 }
