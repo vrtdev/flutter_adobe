@@ -33,17 +33,16 @@ object Extractor {
                 AdobePluginCall.UNKNOWN -> AdobeCall.Unknown
             }
 
-    private fun adobeCallFromTrackCall(call: MethodCall): AdobeCall {
-        when (call.argument<String>(typeKey)) {
-            actionKey -> AdobeCall.TrackAction(
-                    call.argument<String>(keyKey)!!,
-                    call.argument<Map<String, String>>(contextDataKey)!!
-            )
-            stateKey -> AdobeCall.TrackState(
-                    call.argument<String>(keyKey)!!,
-                    call.argument<Map<String, String>>(contextDataKey)!!
-            )
-        }
-        return AdobeCall.Unknown
-    }
+    private fun adobeCallFromTrackCall(call: MethodCall): AdobeCall =
+            when (call.argument<String>(typeKey)) {
+                actionKey -> AdobeCall.TrackAction(
+                        call.argument<String>(keyKey)!!,
+                        call.argument<Map<String, String>>(contextDataKey)!!
+                )
+                stateKey -> AdobeCall.TrackState(
+                        call.argument<String>(keyKey)!!,
+                        call.argument<Map<String, String>>(contextDataKey)!!
+                )
+                else -> AdobeCall.Unknown
+            }
 }

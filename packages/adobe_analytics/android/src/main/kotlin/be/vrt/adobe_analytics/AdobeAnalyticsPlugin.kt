@@ -29,12 +29,12 @@ class AdobeAnalyticsPlugin : MethodCallHandler {
 
     private fun trackAction(trackAction: Extractor.AdobeCall.TrackAction, result: Result) {
         MobileCore.trackAction(trackAction.action, trackAction.contextData)
-        result.success(null)
+        result.success(true)
     }
 
     private fun trackState(trackState: Extractor.AdobeCall.TrackState, result: Result) {
         MobileCore.trackState(trackState.state, trackState.contextData)
-        result.success(null)
+        result.success(true)
     }
 
 }
