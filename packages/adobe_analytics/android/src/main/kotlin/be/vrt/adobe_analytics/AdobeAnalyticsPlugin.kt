@@ -1,6 +1,7 @@
-package com.example.adobe_analytics
+package be.vrt.adobe_analytics
 
 import com.adobe.marketing.mobile.MobileCore
+import be.vrt.adobe_analytics.Extractor
 
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel

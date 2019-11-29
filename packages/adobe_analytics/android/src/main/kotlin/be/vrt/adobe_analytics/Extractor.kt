@@ -1,4 +1,4 @@
-package com.example.adobe_analytics
+package be.vrt.adobe_analytics
 
 import io.flutter.plugin.common.MethodCall
 

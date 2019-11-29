@@ -1,4 +1,4 @@
-package com.example.adobe_analytics_example
+package be.vrt.adobe_analytics_example
 
 import android.os.Bundle
 

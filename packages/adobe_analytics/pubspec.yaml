@@ -27,7 +27,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.adobe_analytics
+        package: be.vrt.adobe_analytics
         pluginClass: AdobeAnalyticsPlugin
       ios:
         pluginClass: AdobeAnalyticsPlugin

@@ -1,4 +1,4 @@
-group 'com.example.adobe_analytics'
+group 'be.vrt.adobe_analytics'
 version '1.0-SNAPSHOT'
 
 buildscript {
