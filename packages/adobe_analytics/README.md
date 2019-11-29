@@ -21,7 +21,27 @@ Adobe SDKs setup reference : https://aep-sdks.gitbook.io/docs/getting-started/in
 
 ### Android
 
-TODO
+Add the following code to your Application's `override fun onCreate()` :
+
+```kotlin
+// 1. Set ACPCore's log level
+MobileCore.setLogLevel(LoggingMode.VERBOSE) // Optional
+
+// 2. Configure ACPCore with your Adobe Environment ID
+MobileCore.setApplication(application)
+MobileCore.configureWithAppID("<Your Adobe Environment ID>")
+
+// 3. Register Analytics & Identity extensions 
+try {
+    Analytics.registerExtension()
+    Identity.registerExtension()
+} catch (e: Exception) { // handle exception
+    Log.e("Error", e.message)
+}
+
+// 4. Start ACPCore
+MobileCore.start(null)
+```
 
 ### iOS
 
@@ -38,6 +58,6 @@ ACPCore.configure(withAppId: "<Your Adobe Environment ID>")
 ACPAnalytics.registerExtension()
 ACPIdentity.registerExtension()
 
-4. Start ACPCore
+// 4. Start ACPCore
 ACPCore.start(nil)
 ```
