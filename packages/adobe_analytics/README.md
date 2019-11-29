@@ -21,7 +21,7 @@ Adobe SDKs setup reference : https://aep-sdks.gitbook.io/docs/getting-started/in
 
 ### Android
 
-Add the following code to your Activity's `override fun onCreate(savedInstanceState: Bundle?)` :
+Add the following code to your Application's `override fun onCreate()` :
 
 ```kotlin
 // 1. Set ACPCore's log level
