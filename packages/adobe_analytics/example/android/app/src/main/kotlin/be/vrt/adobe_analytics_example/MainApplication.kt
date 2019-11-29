@@ -14,7 +14,7 @@ class MainApplication : FlutterApplication() {
 
         MobileCore.setLogLevel(LoggingMode.VERBOSE)
         MobileCore.setApplication(this)
-        MobileCore.configureWithAppID("launch-EN6d9dd10dfef34db8b0c44ea88e8372c2-staging")
+        MobileCore.configureWithAppID("<Your Adobe Environment ID>")
 
         try {
             Analytics.registerExtension()
