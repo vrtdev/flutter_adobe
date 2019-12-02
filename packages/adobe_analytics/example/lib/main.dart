@@ -10,13 +10,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  AdobeAnalytics _adobeAnalytics = AdobeAnalytics();
+
   Future<void> trackAction(String action, Map<String, String> data, {@required BuildContext context}) async {
-    final success = await AdobeAnalytics.trackAction(action, data);
+    final success = await _adobeAnalytics.trackAction(action, data);
     print("Action tracking result : ${success ? "success" : "failure"}");
   }
 
   Future<void> trackState(String state, Map<String, String> data, {@required BuildContext context}) async {
-    final success = await AdobeAnalytics.trackState(state, data);
+    final success = await _adobeAnalytics.trackState(state, data);
     print("State tracking result : ${success ? "success" : "failure"}");
   }
 

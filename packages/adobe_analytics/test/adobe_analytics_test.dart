@@ -6,8 +6,10 @@ void main() {
   const MethodChannel channel = MethodChannel('adobe_analytics');
 
   _MethodCallHandler callHandler;
+  AdobeAnalytics sut;
 
   setUp(() {
+    sut = AdobeAnalytics();
     callHandler = _MethodCallHandler();
     channel.setMockMethodCallHandler(callHandler.handler);
   });
@@ -20,7 +22,7 @@ void main() {
     test('Track action', () async {
       final actionName = "testAction";
       final actionData = {"testData": "testDataValue"};
-      await AdobeAnalytics.trackAction(actionName, actionData);
+      await sut.trackAction(actionName, actionData);
       expect(callHandler.lastMethodCall.method, "track");
       expect(callHandler.lastMethodCall.arguments, {"type": "action", "key": actionName, "data": actionData});
     });
@@ -28,7 +30,7 @@ void main() {
     test('Track state', () async {
       final stateName = "testState";
       final stateData = {"testData": "testDataValue"};
-      await AdobeAnalytics.trackState(stateName, stateData);
+      await sut.trackState(stateName, stateData);
       expect(callHandler.lastMethodCall.method, "track");
       expect(callHandler.lastMethodCall.arguments, {"type": "state", "key": stateName, "data": stateData});
     });
