@@ -15,8 +15,8 @@ Uses a Flutter method channel to setup ACPCore and bridge analytics events.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'ACPAnalytics', '~> 2.0'
-  s.dependency 'ACPCore', '~> 2.0'
+  s.dependency 'ACPCore', '2.3.6'
+  s.dependency 'ACPAnalytics', '2.2.1'
   s.static_framework = true
 
   s.ios.deployment_target = '10.0'
