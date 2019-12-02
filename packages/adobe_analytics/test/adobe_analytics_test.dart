@@ -5,17 +5,43 @@ import 'package:adobe_analytics/adobe_analytics.dart';
 void main() {
   const MethodChannel channel = MethodChannel('adobe_analytics');
 
+  _MethodCallHandler callHandler;
+
   setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
-    });
+    callHandler = _MethodCallHandler();
+    channel.setMockMethodCallHandler(callHandler.handler);
   });
 
   tearDown(() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await AdobeAnalytics.platformVersion, '42');
+  group('Tracking', () {
+    test('Track action', () async {
+      final actionName = "testAction";
+      final actionData = {"testData": "testDataValue"};
+      await AdobeAnalytics.trackAction(actionName, actionData);
+      expect(callHandler.lastMethodCall.method, "track");
+      expect(callHandler.lastMethodCall.arguments, {"type": "action", "key": actionName, "data": actionData});
+    });
+
+    test('Track state', () async {
+      final stateName = "testState";
+      final stateData = {"testData": "testDataValue"};
+      await AdobeAnalytics.trackState(stateName, stateData);
+      expect(callHandler.lastMethodCall.method, "track");
+      expect(callHandler.lastMethodCall.arguments, {"type": "state", "key": stateName, "data": stateData});
+    });
   });
+}
+
+class _MethodCallHandler {
+  MethodCall _lastMethodCall;
+
+  MethodCall get lastMethodCall => _lastMethodCall;
+
+  Future<dynamic> handler(MethodCall call) {
+    _lastMethodCall = call;
+    return Future.value(true);
+  }
 }
