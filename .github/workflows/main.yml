@@ -16,5 +16,3 @@ jobs:
       working-directory: packages/adobe_analytics
     - run: flutter test
       working-directory: packages/adobe_analytics
-    - run: flutter build apk
-      working-directory: packages/adobe_analytics
