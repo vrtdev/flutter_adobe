@@ -1,7 +1,7 @@
 name: adobe_analytics
 description: A new flutter plugin project.
 version: 0.0.1
-authors: Jérémie Vincke (jeremie@movify.com)
+author: Jérémie Vincke <jeremie@movify.com>
 homepage: https://github.com/vrtdev/flutter_adobe/tree/master/packages/adobe_analytics
 
 environment:
