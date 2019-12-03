@@ -1,6 +1,8 @@
 package be.vrt.adobe_analytics
 
+import android.os.Handler
 import com.adobe.marketing.mobile.MobileCore
+import com.adobe.marketing.mobile.Identity
 
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -22,6 +24,16 @@ class AdobeAnalyticsPlugin : MethodCallHandler {
         val exhaustMe: Any = when (val data = Extractor.adobeCallFromCall(call)) {
             is Extractor.AdobeCall.TrackState -> trackState(data, result)
             is Extractor.AdobeCall.TrackAction -> trackAction(data, result)
+            is Extractor.AdobeCall.GetExperienceCloudId -> {
+                val mainLooper = Handler()
+                Thread().run {
+                    Identity.getExperienceCloudId {
+                        mainLooper.post {
+                            result.success(it)
+                        }
+                    }
+                }
+            }
             Extractor.AdobeCall.Unknown -> result.notImplemented()
         }
     }

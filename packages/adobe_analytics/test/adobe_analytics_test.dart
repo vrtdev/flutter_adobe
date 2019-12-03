@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:adobe_analytics/adobe_analytics.dart';
+import 'package:meta/meta.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('adobe_analytics');
@@ -10,9 +11,12 @@ void main() {
 
   setUp(() {
     sut = AdobeAnalytics();
-    callHandler = _MethodCallHandler();
-    channel.setMockMethodCallHandler(callHandler.handler);
   });
+
+  setupMockMethodCallHandler({@required final dynamic returnValue}) {
+    callHandler = _MethodCallHandler(returnValue: returnValue);
+    channel.setMockMethodCallHandler(callHandler.handler);
+  }
 
   tearDown(() {
     channel.setMockMethodCallHandler(null);
@@ -20,6 +24,7 @@ void main() {
 
   group('Tracking', () {
     test('Track action', () async {
+      setupMockMethodCallHandler(returnValue: true);
       final actionName = "testAction";
       final actionData = {"testData": "testDataValue"};
       await sut.trackAction(actionName, actionData);
@@ -28,6 +33,7 @@ void main() {
     });
 
     test('Track state', () async {
+      setupMockMethodCallHandler(returnValue: true);
       final stateName = "testState";
       final stateData = {"testData": "testDataValue"};
       await sut.trackState(stateName, stateData);
@@ -35,15 +41,28 @@ void main() {
       expect(callHandler.lastMethodCall.arguments, {"type": "state", "key": stateName, "data": stateData});
     });
   });
+
+  group('Experience Cloud ID', () {
+    test('Get Experience Cloud ID', () async {
+      setupMockMethodCallHandler(returnValue: "42");
+      await sut.getExperienceCloudId();
+      expect(callHandler.lastMethodCall.method, "getExperienceCloudId");
+      expect(callHandler.lastMethodCall.arguments, null);
+    });
+  });
 }
 
 class _MethodCallHandler {
+  final dynamic returnValue;
+
   MethodCall _lastMethodCall;
+
+  _MethodCallHandler({this.returnValue});
 
   MethodCall get lastMethodCall => _lastMethodCall;
 
   Future<dynamic> handler(MethodCall call) {
     _lastMethodCall = call;
-    return Future.value(true);
+    return Future.value(returnValue);
   }
 }

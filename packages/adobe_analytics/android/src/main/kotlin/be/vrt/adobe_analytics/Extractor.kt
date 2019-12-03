@@ -5,12 +5,14 @@ import io.flutter.plugin.common.MethodCall
 object Extractor {
     private enum class AdobePluginCall(val rawMethodName: String? = null) {
         TRACK("track"),
+        GETEXPERIENCECLOUDID("getExperienceCloudId"),
         UNKNOWN(null);
     }
 
     sealed class AdobeCall {
         data class TrackAction(val action: String, val contextData: Map<String, String>) : AdobeCall()
         data class TrackState(val state: String, val contextData: Map<String, String>) : AdobeCall()
+        object GetExperienceCloudId : AdobeCall()
         object Unknown : AdobeCall()
     }
 
@@ -30,6 +32,7 @@ object Extractor {
             when (callFromRawMethodName(call.method)) {
                 AdobePluginCall.TRACK ->
                     adobeCallFromTrackCall(call)
+                AdobePluginCall.GETEXPERIENCECLOUDID -> AdobeCall.GetExperienceCloudId
                 AdobePluginCall.UNKNOWN -> AdobeCall.Unknown
             }
 
@@ -45,5 +48,5 @@ object Extractor {
                 )
                 else -> AdobeCall.Unknown
             }
-    
+
 }

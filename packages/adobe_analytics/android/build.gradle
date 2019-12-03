@@ -42,4 +42,6 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.adobe.marketing.mobile:analytics:1.2.2"
+    implementation "com.adobe.marketing.mobile:identity:1.1.2"
+
 }
