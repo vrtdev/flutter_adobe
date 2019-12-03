@@ -7,6 +7,7 @@ public class SwiftAdobeAnalyticsPlugin: NSObject, FlutterPlugin {
   
   private enum Method: String {
     case track
+    case getExperienceCloudId
   }
   
   private enum TrackingType: String {
@@ -45,6 +46,10 @@ extension SwiftAdobeAnalyticsPlugin {
       case .trackState(let arguments):
         ACPCore.trackState(arguments.key, data: arguments.contextData)
         result(true)
+      case .getExperienceCloudId:
+        ACPIdentity.getExperienceCloudId { experienceCloudId in
+          result(experienceCloudId)
+        }
       }
     } catch {
       result(error.asFlutterError)
