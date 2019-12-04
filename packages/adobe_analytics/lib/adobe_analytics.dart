@@ -1,9 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 class AdobeAnalytics {
-  static const MethodChannel _channel = const MethodChannel('adobe_analytics');
+  final MethodChannel _channel;
+
+  AdobeAnalytics() : _channel = const MethodChannel('adobe_analytics');
+
+  @visibleForTesting
+  AdobeAnalytics.testable(this._channel);
 
   /// Track a new action with optional context data. Make sure ACPCore has been configured, and both ACPAnalytics and ACPIdentity
   /// have been registered before calling this method.
