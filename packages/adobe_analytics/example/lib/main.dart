@@ -14,13 +14,13 @@ class _MyAppState extends State<MyApp> {
 
   String _experienceCloudId;
 
-  Future<void> trackAction(String action, Map<String, String> data) async {
-    final success = await _adobeAnalytics.trackAction(action, data);
+  Future<void> trackAction(String action, {Map<String, String> data}) async {
+    final success = await _adobeAnalytics.trackAction(action, data: data);
     print("Action tracking result : ${success ? "success" : "failure"}");
   }
 
-  Future<void> trackState(String state, Map<String, String> data) async {
-    final success = await _adobeAnalytics.trackState(state, data);
+  Future<void> trackState(String state, {Map<String, String> data}) async {
+    final success = await _adobeAnalytics.trackState(state, data: data);
     print("State tracking result : ${success ? "success" : "failure"}");
   }
 
@@ -46,12 +46,12 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 RaisedButton(
                   child: Text("Track action"),
-                  onPressed: () => trackAction("New action", {"Action value": "Hello world"}),
+                  onPressed: () => trackAction("New action", data: {"Action value": "Hello world"}),
                 ),
                 SizedBox(height: 8),
                 RaisedButton(
                   child: Text("Track state"),
-                  onPressed: () => trackState("New state", {"State value": "Hello world"}),
+                  onPressed: () => trackState("New state", data: {"State value": "Hello world"}),
                 ),
                 SizedBox(height: 8),
                 RaisedButton(

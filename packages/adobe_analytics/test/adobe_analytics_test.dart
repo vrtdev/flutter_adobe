@@ -23,22 +23,38 @@ void main() {
   });
 
   group('Tracking', () {
-    test('Track action', () async {
+    test('Track action with context data', () async {
       setupMockMethodCallHandler(returnValue: true);
       final actionName = "testAction";
       final actionData = {"testData": "testDataValue"};
-      await sut.trackAction(actionName, actionData);
+      await sut.trackAction(actionName, data: actionData);
       expect(callHandler.lastMethodCall.method, "track");
       expect(callHandler.lastMethodCall.arguments, {"type": "action", "key": actionName, "data": actionData});
     });
 
-    test('Track state', () async {
+    test('Track action without context data', () async {
+      setupMockMethodCallHandler(returnValue: true);
+      final actionName = "testAction";
+      await sut.trackAction(actionName);
+      expect(callHandler.lastMethodCall.method, "track");
+      expect(callHandler.lastMethodCall.arguments, {"type": "action", "key": actionName, "data": null});
+    });
+
+    test('Track state with context data', () async {
       setupMockMethodCallHandler(returnValue: true);
       final stateName = "testState";
       final stateData = {"testData": "testDataValue"};
-      await sut.trackState(stateName, stateData);
+      await sut.trackState(stateName, data: stateData);
       expect(callHandler.lastMethodCall.method, "track");
       expect(callHandler.lastMethodCall.arguments, {"type": "state", "key": stateName, "data": stateData});
+    });
+
+    test('Track state without context data', () async {
+      setupMockMethodCallHandler(returnValue: true);
+      final stateName = "testState";
+      await sut.trackState(stateName);
+      expect(callHandler.lastMethodCall.method, "track");
+      expect(callHandler.lastMethodCall.arguments, {"type": "state", "key": stateName, "data": null});
     });
   });
 

@@ -10,8 +10,8 @@ object Extractor {
     }
 
     sealed class AdobeCall {
-        data class TrackAction(val action: String, val contextData: Map<String, String>) : AdobeCall()
-        data class TrackState(val state: String, val contextData: Map<String, String>) : AdobeCall()
+        data class TrackAction(val action: String, val contextData: Map<String, String>?) : AdobeCall()
+        data class TrackState(val state: String, val contextData: Map<String, String>?) : AdobeCall()
         object GetExperienceCloudId : AdobeCall()
         object Unknown : AdobeCall()
     }
@@ -40,11 +40,11 @@ object Extractor {
             when (call.argument<String>(typeKey)) {
                 actionKey -> AdobeCall.TrackAction(
                         call.argument<String>(keyKey)!!,
-                        call.argument<Map<String, String>>(contextDataKey)!!
+                        call.argument<Map<String, String>>(contextDataKey)
                 )
                 stateKey -> AdobeCall.TrackState(
                         call.argument<String>(keyKey)!!,
-                        call.argument<Map<String, String>>(contextDataKey)!!
+                        call.argument<Map<String, String>>(contextDataKey)
                 )
                 else -> AdobeCall.Unknown
             }
