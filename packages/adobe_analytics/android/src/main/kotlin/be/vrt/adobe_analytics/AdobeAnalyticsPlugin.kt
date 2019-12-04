@@ -9,6 +9,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import java.util.concurrent.Executors
 
 class AdobeAnalyticsPlugin : MethodCallHandler {
     companion object {
@@ -20,22 +21,24 @@ class AdobeAnalyticsPlugin : MethodCallHandler {
         }
     }
 
+    private val backgroundExecutor by lazy { Executors.newCachedThreadPool() }
+
     override fun onMethodCall(call: MethodCall, result: Result) {
-        val exhaustMe: Any = when (val data = Extractor.adobeCallFromCall(call)) {
+        when (val data = Extractor.adobeCallFromCall(call)) {
             is Extractor.AdobeCall.TrackState -> trackState(data, result)
             is Extractor.AdobeCall.TrackAction -> trackAction(data, result)
             is Extractor.AdobeCall.GetExperienceCloudId -> {
-                val mainLooper = Handler()
-                Thread().run {
+                val handler = Handler()
+                backgroundExecutor.execute {
                     Identity.getExperienceCloudId {
-                        mainLooper.post {
+                        handler.post {
                             result.success(it)
                         }
                     }
                 }
             }
             Extractor.AdobeCall.Unknown -> result.notImplemented()
-        }
+        }.exhaustive
     }
 
     private fun trackAction(trackAction: Extractor.AdobeCall.TrackAction, result: Result) {
@@ -47,5 +50,7 @@ class AdobeAnalyticsPlugin : MethodCallHandler {
         MobileCore.trackState(trackState.state, trackState.contextData)
         result.success(true)
     }
-
 }
+
+val <T> T.exhaustive: T
+    get() = this
