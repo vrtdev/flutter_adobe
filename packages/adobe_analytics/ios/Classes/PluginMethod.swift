@@ -9,6 +9,7 @@ import Foundation
 enum PluginMethod {
   case trackAction(TrackingArguments)
   case trackState(TrackingArguments)
+  case getExperienceCloudId
   
   public init(from call: FlutterMethodCall) throws {
     switch call.method {
@@ -22,6 +23,8 @@ enum PluginMethod {
       default:
         throw PluginError.argumentsParsingError(for: call, message: "Invalid tracking type")
       }
+    case "getExperienceCloudId":
+      self = .getExperienceCloudId
     default:
       throw PluginError.unhandledMethod(call)
     }

@@ -5,12 +5,14 @@ import io.flutter.plugin.common.MethodCall
 object Extractor {
     private enum class AdobePluginCall(val rawMethodName: String? = null) {
         TRACK("track"),
+        GET_EXPERIENCE_CLOUD_ID("getExperienceCloudId"),
         UNKNOWN(null);
     }
 
     sealed class AdobeCall {
-        data class TrackAction(val action: String, val contextData: Map<String, String>) : AdobeCall()
-        data class TrackState(val state: String, val contextData: Map<String, String>) : AdobeCall()
+        data class TrackAction(val action: String, val contextData: Map<String, String>?) : AdobeCall()
+        data class TrackState(val state: String, val contextData: Map<String, String>?) : AdobeCall()
+        object GetExperienceCloudId : AdobeCall()
         object Unknown : AdobeCall()
     }
 
@@ -30,6 +32,7 @@ object Extractor {
             when (callFromRawMethodName(call.method)) {
                 AdobePluginCall.TRACK ->
                     adobeCallFromTrackCall(call)
+                AdobePluginCall.GET_EXPERIENCE_CLOUD_ID -> AdobeCall.GetExperienceCloudId
                 AdobePluginCall.UNKNOWN -> AdobeCall.Unknown
             }
 
@@ -37,13 +40,13 @@ object Extractor {
             when (call.argument<String>(typeKey)) {
                 actionKey -> AdobeCall.TrackAction(
                         call.argument<String>(keyKey)!!,
-                        call.argument<Map<String, String>>(contextDataKey)!!
+                        call.argument<Map<String, String>>(contextDataKey)
                 )
                 stateKey -> AdobeCall.TrackState(
                         call.argument<String>(keyKey)!!,
-                        call.argument<Map<String, String>>(contextDataKey)!!
+                        call.argument<Map<String, String>>(contextDataKey)
                 )
                 else -> AdobeCall.Unknown
             }
-    
+
 }

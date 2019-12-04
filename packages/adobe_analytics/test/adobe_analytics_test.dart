@@ -1,49 +1,49 @@
-import 'package:flutter/services.dart';
+import 'package:adobe_analytics/mocks/adobe_analytics_mock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:adobe_analytics/adobe_analytics.dart';
+import 'package:mockito/mockito.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('adobe_analytics');
-
-  _MethodCallHandler callHandler;
+  MethodChannelMock methodChannelMock;
   AdobeAnalytics sut;
 
   setUp(() {
-    sut = AdobeAnalytics();
-    callHandler = _MethodCallHandler();
-    channel.setMockMethodCallHandler(callHandler.handler);
-  });
-
-  tearDown(() {
-    channel.setMockMethodCallHandler(null);
+    methodChannelMock = MethodChannelMock();
+    sut = AdobeAnalytics.testable(methodChannelMock);
   });
 
   group('Tracking', () {
-    test('Track action', () async {
+    test('Track action with context data', () async {
       final actionName = "testAction";
       final actionData = {"testData": "testDataValue"};
-      await sut.trackAction(actionName, actionData);
-      expect(callHandler.lastMethodCall.method, "track");
-      expect(callHandler.lastMethodCall.arguments, {"type": "action", "key": actionName, "data": actionData});
+      await sut.trackAction(actionName, data: actionData);
+      verify(methodChannelMock.invokeMethod("track", {"type": "action", "key": actionName, "data": actionData}));
     });
 
-    test('Track state', () async {
+    test('Track action without context data', () async {
+      final actionName = "testAction";
+      await sut.trackAction(actionName);
+      verify(methodChannelMock.invokeMethod("track", {"type": "action", "key": actionName, "data": null}));
+    });
+
+    test('Track state with context data', () async {
       final stateName = "testState";
       final stateData = {"testData": "testDataValue"};
-      await sut.trackState(stateName, stateData);
-      expect(callHandler.lastMethodCall.method, "track");
-      expect(callHandler.lastMethodCall.arguments, {"type": "state", "key": stateName, "data": stateData});
+      await sut.trackState(stateName, data: stateData);
+      verify(methodChannelMock.invokeMethod("track", {"type": "state", "key": stateName, "data": stateData}));
+    });
+
+    test('Track state without context data', () async {
+      final stateName = "testState";
+      await sut.trackState(stateName);
+      verify(methodChannelMock.invokeMethod("track", {"type": "state", "key": stateName, "data": null}));
     });
   });
-}
 
-class _MethodCallHandler {
-  MethodCall _lastMethodCall;
-
-  MethodCall get lastMethodCall => _lastMethodCall;
-
-  Future<dynamic> handler(MethodCall call) {
-    _lastMethodCall = call;
-    return Future.value(true);
-  }
+  group('Experience Cloud ID', () {
+    test('Get Experience Cloud ID', () async {
+      await sut.getExperienceCloudId();
+      verify(methodChannelMock.invokeMethod("getExperienceCloudId"));
+    });
+  });
 }
