@@ -24,6 +24,6 @@ class AdobeAnalytics {
   /// Retrieve the Experience Cloud ID.
   Future<String> getExperienceCloudId() => _channel.invokeMethod('getExperienceCloudId');
 
-  /// Append visitor info to the given URL.
+  /// Append visitor information to the given URL.
   Future<String> appendVisitorInfo(String url) => _channel.invokeMethod('appendVisitorInfo', {'url': url});
 }

@@ -13,6 +13,7 @@ class _MyAppState extends State<MyApp> {
   AdobeAnalytics _adobeAnalytics = AdobeAnalytics();
 
   String _experienceCloudId;
+  String _urlWithAppendedVisitorInfo;
 
   Future<void> trackAction(String action, {Map<String, String> data}) async {
     final success = await _adobeAnalytics.trackAction(action, data: data);
@@ -29,6 +30,14 @@ class _MyAppState extends State<MyApp> {
     print("Experience Cloud ID : $experienceCloudId");
     setState(() {
       _experienceCloudId = experienceCloudId;
+    });
+  }
+
+  Future<void> appendVisitorInfo(String url) async {
+    final appendedUrl = await _adobeAnalytics.appendVisitorInfo(url);
+    print("Appended URL : $appendedUrl");
+    setState(() {
+      _urlWithAppendedVisitorInfo = appendedUrl;
     });
   }
 
@@ -59,6 +68,12 @@ class _MyAppState extends State<MyApp> {
                   onPressed: () => getExperienceCloudId(),
                 ),
                 Text("Experience Cloud ID : ${_experienceCloudId ?? "unknown"}"),
+                SizedBox(height: 8),
+                RaisedButton(
+                  child: Text("Append visitor info (base URL : https://flutter.dev)"),
+                  onPressed: () => appendVisitorInfo("https://flutter.dev"),
+                ),
+                Text("Appended URL : ${_urlWithAppendedVisitorInfo ?? "unknown"}"),
               ],
             ),
           ),

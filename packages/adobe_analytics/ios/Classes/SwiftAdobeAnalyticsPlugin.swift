@@ -53,6 +53,10 @@ extension SwiftAdobeAnalyticsPlugin {
       case .trackState(let arguments):
         trackState(arguments.key, data: arguments.contextData)
         result(true)
+      case .appendVisitorInfo(let arguments):
+        appendVisitorInfo(to: arguments.url) { appendedUrl in
+          result(appendedUrl)
+        }
       case .getExperienceCloudId:
         ACPIdentity.getExperienceCloudId { experienceCloudId in
           result(experienceCloudId)
@@ -76,15 +80,15 @@ extension SwiftAdobeAnalyticsPlugin: AdobeAnalyticsProtocol {
     ACPCore.trackState(state, data: data)
   }
   
-  public func getExperienceCloudId(completion: @escaping (String?) -> Void) {
-    ACPIdentity.getExperienceCloudId { experienceCloudId in
-      completion(experienceCloudId)
-    }
-  }
-  
   public func appendVisitorInfo(to url: URL, completion: @escaping (String) -> Void) {
     ACPIdentity.append(to: url) { updatedURL in
       completion(updatedURL!.absoluteString)
+    }
+  }
+  
+  public func getExperienceCloudId(completion: @escaping (String?) -> Void) {
+    ACPIdentity.getExperienceCloudId { experienceCloudId in
+      completion(experienceCloudId)
     }
   }
   
