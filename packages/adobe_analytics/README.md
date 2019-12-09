@@ -35,7 +35,7 @@ MobileCore.configureWithAppID("<Your Adobe Environment ID>")
 try {
     Analytics.registerExtension()
     Identity.registerExtension()
-} catch (e: Exception) { // handle exception
+} catch (e: Exception) {
     Log.e("Error", e.message)
 }
 
