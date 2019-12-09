@@ -27,6 +27,16 @@ class AdobeAnalyticsPlugin : MethodCallHandler {
         when (val data = Extractor.adobeCallFromCall(call)) {
             is Extractor.AdobeCall.TrackState -> trackState(data, result)
             is Extractor.AdobeCall.TrackAction -> trackAction(data, result)
+            is Extractor.AdobeCall.AppendVisitorInfo -> {
+                val handler = Handler()
+                backgroundExecutor.execute {
+                    Identity.appendVisitorInfoForURL(data.url) {
+                        handler.post {
+                            result.success(it)
+                        }
+                    }
+                }
+            }
             is Extractor.AdobeCall.GetExperienceCloudId -> {
                 val handler = Handler()
                 backgroundExecutor.execute {

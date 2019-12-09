@@ -21,6 +21,9 @@ class AdobeAnalytics {
   Future<bool> trackState(String action, {Map<String, String> data}) =>
       _channel.invokeMethod('track', {'type': 'state', 'key': action, 'data': data});
 
-  /// Retrieves the Experience Cloud ID.
+  /// Retrieve the Experience Cloud ID.
   Future<String> getExperienceCloudId() => _channel.invokeMethod('getExperienceCloudId');
+
+  /// Append visitor info to the given URL.
+  Future<String> appendVisitorInfo(String url) => _channel.invokeMethod('appendVisitorInfo', {'url': url});
 }
