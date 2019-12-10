@@ -82,7 +82,7 @@ extension SwiftAdobeAnalyticsPlugin: AdobeAnalyticsProtocol {
   
   public func appendVisitorInfo(to url: URL, completion: @escaping (String) -> Void) {
     ACPIdentity.append(to: url) { updatedURL in
-      completion(updatedURL!.absoluteString)
+      completion(updatedURL?.absoluteString ?? url.absoluteString)
     }
   }
   
