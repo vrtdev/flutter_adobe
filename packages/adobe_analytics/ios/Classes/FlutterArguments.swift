@@ -30,3 +30,7 @@ struct TrackingArguments: FlutterArguments {
   let key: String
   let contextData: [String: String]?
 }
+
+struct AppendVisitorInfoArguments: FlutterArguments {
+  let url: URL
+}

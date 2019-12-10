@@ -46,4 +46,12 @@ void main() {
       verify(methodChannelMock.invokeMethod("getExperienceCloudId"));
     });
   });
+
+  group('Visitor info', () {
+    test('Append visitor info to URL', () async {
+      final url = "https://flutter.dev";
+      await sut.appendVisitorInfo(url);
+      verify(methodChannelMock.invokeMethod("appendVisitorInfo", {"url": url}));
+    });
+  });
 }
