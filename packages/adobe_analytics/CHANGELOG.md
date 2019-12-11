@@ -1,3 +1,8 @@
+## 0.0.2
+
+* [adobe_analytics]
+  * Fixed Dart formatting & updated plugin description 
+
 ## 0.0.1
 
 * [adobe_analytics] Bound native SDK methods :

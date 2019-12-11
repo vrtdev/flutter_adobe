@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'adobe_analytics'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'A Flutter plugin to bridge Adobe Experience Experience Platform SDKs.'
   s.description      = <<-DESC
 Uses a Flutter method channel to setup ACPCore and bridge analytics events.
