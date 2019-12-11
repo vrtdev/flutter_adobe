@@ -1,7 +1,7 @@
-import 'package:adobe_analytics/mocks/adobe_analytics_mock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:adobe_analytics/adobe_analytics.dart';
 import 'package:mockito/mockito.dart';
+import 'mocks/adobe_analytics_mock.dart';
 
 void main() {
   MethodChannelMock methodChannelMock;
