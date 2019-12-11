@@ -22,8 +22,13 @@ These are the available plugins in this repository.
 
 | Plugin | Pub |
 |--------|-----|
-| [Adobe Analyics](./packages/analytics) | [![pub package](https://img.shields.io/pub/v/analytics.svg)](https://pub.dev/packages/adobe_experience_platform_analytics) |
-| [Adobe Analyics - Mobile Services](./packages/analytics-mobile-services) | [![pub package](https://img.shields.io/pub/v/analytics-mobile-services.svg)](https://pub.dev/packages/adobe_experience_platform_analytics-mobile-services) |
+| [Adobe Analytics](./packages/adobe_analytics) | [![pub package](https://img.shields.io/pub/v/adobe_analytics.svg)](https://pub.dev/packages/adobe_analytics) |
+
+These are the plugins under development.
+
+| Plugin | Pub |
+|--------|-----|
+| [Adobe Analytics - Mobile Services](./packages/analytics-mobile-services) | [![pub package](https://img.shields.io/pub/v/analytics-mobile-services.svg)](https://pub.dev/packages/adobe_experience_platform_analytics-mobile-services) |
 | [Adobe Media Analytics for Audio & Video](./packages/media-analytics) | [![pub package](https://img.shields.io/pub/v/media-analytics.svg)](https://pub.dev/packages/adobe_experience_platform_media_analytics) |
 | [Audience Manager](./packages/audience-manager) | [![pub package](https://img.shields.io/pub/v/audience-manager.svg)](https://pub.dev/packages/adobe_experience_platform_audience_manager) |
 | [Campaign Classic](./packages/campaign-classic) | [![pub package](https://img.shields.io/pub/v/campaign-classic.svg)](https://pub.dev/packages/adobe_experience_platform_campaign_classic) |
