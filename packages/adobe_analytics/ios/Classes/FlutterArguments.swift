@@ -28,7 +28,7 @@ extension FlutterArguments {
 struct TrackingArguments: FlutterArguments {
   let type: String
   let key: String
-  let contextData: [String: String]?
+  let data: [String: String]?
 }
 
 struct AppendVisitorInfoArguments: FlutterArguments {

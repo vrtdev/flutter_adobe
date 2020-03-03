@@ -48,10 +48,10 @@ extension SwiftAdobeAnalyticsPlugin {
     do {
       switch try PluginMethod(from: call) {
       case .trackAction(let arguments):
-        trackAction(arguments.key, data: arguments.contextData)
+        trackAction(arguments.key, data: arguments.data)
         result(true)
       case .trackState(let arguments):
-        trackState(arguments.key, data: arguments.contextData)
+        trackState(arguments.key, data: arguments.data)
         result(true)
       case .appendVisitorInfo(let arguments):
         appendVisitorInfo(to: arguments.url) { appendedUrl in
@@ -89,31 +89,6 @@ extension SwiftAdobeAnalyticsPlugin: AdobeAnalyticsProtocol {
   public func getExperienceCloudId(completion: @escaping (String?) -> Void) {
     ACPIdentity.getExperienceCloudId { experienceCloudId in
       completion(experienceCloudId)
-    }
-  }
-  
-}
-
-//MARK: - Helpers
-
-extension SwiftAdobeAnalyticsPlugin {
-  
-  private func parseTrackingArgs(_ args: Any?) -> (type: TrackingType, key: String, data: [String: String])? {
-    guard
-      let args = args as? [String: Any],
-      let type: String = args["type"] as? String,
-      let key: String = args["key"] as? String,
-      let contextData: [String: String] = args["data"] as? [String: String]
-      else {
-        return nil
-    }
-    switch type {
-    case TrackingType.action.rawValue:
-      return (type: .action, key: key, data: contextData)
-    case TrackingType.state.rawValue:
-      return (type: .state, key: key, data: contextData)
-    default:
-      return nil
     }
   }
   
