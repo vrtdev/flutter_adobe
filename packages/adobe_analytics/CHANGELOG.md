@@ -1,3 +1,8 @@
+## 0.0.3
+
+* [adobe_analytics]
+  * Fixed iOS not passing context data
+
 ## 0.0.2
 
 * [adobe_analytics]
