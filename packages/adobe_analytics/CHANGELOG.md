@@ -1,3 +1,8 @@
+## 0.0.5
+
+* [adobe_analytics]
+  * No longer do tracking of actions and state when the application state is .background
+
 ## 0.0.4
 
 * [adobe_analytics]
