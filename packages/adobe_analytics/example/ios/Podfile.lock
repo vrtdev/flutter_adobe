@@ -8,8 +8,8 @@ PODS:
     - ACPCore/iOS (= 2.3.6)
   - ACPCore/iOS (2.3.6)
   - adobe_analytics (0.0.2):
-    - ACPAnalytics (= 2.2.1)
-    - ACPCore (= 2.3.6)
+    - ACPAnalytics (~> 2.0)
+    - ACPCore (~> 2.0)
     - Flutter
   - Flutter (1.0.0)
 
@@ -31,9 +31,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   ACPAnalytics: 117f4a03e07c2c5f51bbcd1855bc500b35ba64c6
   ACPCore: 1d3a5b79f172de3d998cf63b5c1538da1dd66f33
-  adobe_analytics: 5ad5bfde21b9ee7b681e237bd94e8531cb0982d3
+  adobe_analytics: e1678f55724485003332528d9347515ef719fe18
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
 
 PODFILE CHECKSUM: 76d129b135972c734475e303313514f170ca0744
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

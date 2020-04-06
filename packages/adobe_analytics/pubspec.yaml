@@ -1,7 +1,7 @@
 name: adobe_analytics
 description: This plugin bridges the Adobe Experience Platform Mobile SDKs to
   Flutter.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/vrtdev/flutter_adobe/tree/master/packages/adobe_analytics
 
 environment:

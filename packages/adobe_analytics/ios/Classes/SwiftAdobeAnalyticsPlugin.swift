@@ -73,11 +73,15 @@ extension SwiftAdobeAnalyticsPlugin {
 extension SwiftAdobeAnalyticsPlugin: AdobeAnalyticsProtocol {
   
   public func trackAction(_ action: String, data: [String : String]?) {
-    ACPCore.trackAction(action, data: data)
+    if (UIApplication.shared.applicationState != .background) {
+        ACPCore.trackAction(action, data: data)
+    }
   }
   
   public func trackState(_ state: String, data: [String : String]?) {
-    ACPCore.trackState(state, data: data)
+    if (UIApplication.shared.applicationState != .background) {
+        ACPCore.trackState(state, data: data)
+    }
   }
   
   public func appendVisitorInfo(to url: URL, completion: @escaping (String) -> Void) {
