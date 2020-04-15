@@ -1,3 +1,10 @@
+# NOTE
+
+This library is deprecated as Adobe has released their own versions.
+See their GitHub page for more information:
+https://github.com/adobe/flutter_acpcore
+https://github.com/adobe/flutter_acpanalytics
+
 # Adobe Experience Platform Flutter Plugins
 
 [![Build Status](https://api.cirrus-ci.com/github/vrtdev/flutter_adobe_experience_platform.svg)](https://cirrus-ci.com/github/vrtdev/flutter_adobe_experience_platform/master)
